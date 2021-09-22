@@ -1,0 +1,71 @@
+{
+    "compilerOptions": {
+      "module": "es2015",
+      "moduleResolution": "node",
+      "allowJs": false,
+      "sourceMap": true,
+      "removeComments": true,
+      "strict": true,
+      "noImplicitAny": false,
+      "strictFunctionTypes": false, // https://github.com/reactjs/redux/issues/2709
+ 
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+
+      "allowSyntheticDefaultImports": true,
+      "preserveConstEnums": true,
+      "experimentalDecorators": false,
+      "resolveJsonModule": true,
+      "skipLibCheck": true, // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/24573
+      "inlineSources": true, // https://docs.sentry.io/platforms/javascript/#typescript
+      // "paths": {
+      //   "appstate/*": ["./appstate/*"],
+      //   "services/*": ["./services/*"],
+      //   "components/*": ["./components/*"],
+      //   "screens/*": ["./screens/*"],
+      //   "styles/*": ["./styles/*"],
+      // },
+      // See https://facebook.github.io/react-native/docs/typescript
+      "target": "esnext",
+      "baseUrl": ".",
+      "jsx": "react",
+      "esModuleInterop": true,
+      "isolatedModules": true,
+      "lib": ["es6"],
+      "paths": {
+        "*": ["src/*"],
+      //   "appstate/*": ["./appstate/*"],
+      //   "services/*": ["./services/*"],
+      //   "components/*": ["./components/*"],
+      //   "screens/*": ["./screens/*"],
+      //   "styles/*": ["./styles/*"],
+      },
+    "noEmit": true,
+    // these if changing noEmit to false, to get compiled source to build folder:
+    // "noEmit": false,
+    // "sourceRoot": "/",
+    // "outDir": "./build",
+    // "rootDir": "./src",
+    },
+    "include": [
+      "typings/index.d.ts",
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "types": [
+      "react",
+      "react-native",
+      "jest"
+    ],
+    "exclude": [
+      "android",
+      "ios",
+      "build",
+      "node_modules",
+      "babel.config.js",
+      "metro.config.js",
+      "jest.config.js"
+    ],
+    "compileOnSave": false
+}
