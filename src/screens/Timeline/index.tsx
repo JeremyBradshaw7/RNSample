@@ -67,7 +67,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
     'EPALite',
     'Metrics',
     'Dashboard',
-    // 'DAP',
     'Notifications',
     'Library',
     'Settings',
@@ -158,7 +157,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
       const pageResult: IPageInfo = await dispatch(getTimelineEvents(_page, isTablet ? 25 : 15));
       setLoading(false);
       setPagingEnd(pageResult.page >= pageResult.lastPage);
-      // setTotal(pageResult.total);
     } catch (err) {
       setLoading(false);
       Toast.showError($translate('GENERIC.X_FETCH_FAILURE', { entity: $labels.TIMELINE.EVENT }));
@@ -166,15 +164,13 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const checkFetchEvents = () => {
-    // logger('checkFetchEvents', headerShownPersist.current);
     if (headerShownPersist.current) { // only refetch events on timer if we are at the top of the screen, otherwise it may upset paging
       fetchEvents();
     }
   };
 
   const nextPage = async () => {
-    // logger('nextPage', {pagingEnd, paging, loading}); // can still be loading and need next page - can probably uncomment this again when it takes heed of my requested pageSize
-    if (!pagingEnd && !paging /*&& !loading*/) {
+    if (!pagingEnd && !paging) {
       setPaging(true);
       await fetchEvents(page + 1);
       setPaging(false);
@@ -199,7 +195,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
               $labels.MENU[_route];
     const iconName = typeof _route !== 'string' ? _route.icon : (ROUTE_ICON[_route]?.name || ROUTE_ICON[_route] || 'angle-right');
     const iconType = typeof _route !== 'string' ? 'FontAwesome5' : (ROUTE_ICON[route]?.type || 'FontAwesome');
-    // logger('renderActionButton', { _route, label, iconName, iconType });
     return (
       <TouchableOpacity onPress={() => routePicked(_route)}>
         <View style={{ width: actionSize, height: actionSize, marginVertical: actionPadding, marginLeft: actionPadding, marginRight: last ? actionPadding : 0, borderRadius: 10, backgroundColor: secondaryBackgroundColor }}>
@@ -212,7 +207,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const routePicked = (_route) => {
-    logger('--- routePicked', _route);
     switch (_route) {
       case 'MyProgressAssessments':
         dispatch(setScreen(myAssessmentScreenProgress));
@@ -230,9 +224,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
         dispatch(setScreen(assessmentScreenEvidence));
         navigation.navigate('EvidenceAssessments', { fromScreen: 'Timeline' });
         break;
-      // case 'OnlineLearning': // when a stack route to the first screen in the stack??
-      //     navigation.navigate('Courses', { fromScreen: 'Timeline' });
-      //     break;
       default:
         navigation.navigate(_route, { fromScreen: 'Timeline' });
         break;
@@ -251,13 +242,9 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
           <Text style={[styles.subname, primaryForegroundColor && { color: primaryForegroundColor, opacity: 0.7 }]}>{jobTitle}</Text>
         </View>
         <FastImage resizeMode='contain'
-          // tintColor={!!logoTint && !this.state.logoUrlErr ? logoTint : undefined}
           style={[!logoState.loaded && { marginRight: -500 }, styles.rightLogo, { width: logoState.width, height: logoState.height }, !!logoBackgroundColor && { backgroundColor: logoBackgroundColor }]}
           onLoad={(e) => handleLoad(e.nativeEvent.width, e.nativeEvent.height)}
-          onError={() => {
-            logger('Error loading logo url', logoUrl);
-            // this.setState({ logoUrlErr: true });
-          }}
+          onError={() => logger('Error loading logo url', logoUrl)}
           source={!!logoUrl ? { uri: logoUrl } : require('assets/branding/logo_white.png')}
         />
       </RowView>
@@ -275,7 +262,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const renderEvent = (event: ITimelineEvent, index: number) => {
-    // logger('renderEvent', { event, index });
     return (
       <EventTile
         event={event}
@@ -286,20 +272,16 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const onScroll = (contentOffest: any) => {
-    // logger('ONSCROLL', contentOffest, headerShown);
     if (contentOffest.y <= 0 && !headerShown) {
-      // logger('- SHOW');
       Anim.EaseNext();
       setHeaderShown(true);
     } else if (contentOffest.y > 0 && headerShown) {
-      // logger('- HIDE');
       Anim.EaseNext();
       setHeaderShown(false);
     }
   };
 
   const handleLoad = (w, h) => {
-    // logger('///// handleLoad', width, height);
     const maxWidth = (isTablet ? (isLandscape ? 180 : 140) : 100);
     const maxHeight = (isTablet ? 100 : 70);
     let scale = 1;
@@ -309,7 +291,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
     if (w > maxWidth && maxWidth / w < scale) {
       scale = maxWidth / w;
     }
-    // logger(`handleLoad original size ${w}x${h} max ${maxWidth}x${maxHeight} scale ${scale} = ${w * scale}x${h * scale}`);
     Anim.EaseNext();
     setLogoState({ loaded: true, width: w * scale, height: h * scale });
   };
@@ -321,7 +302,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
         <TransparentHeader
           title={homeScreen ? '' : $labels.MENU.Timeline}
           activity={loading}
-          // titleStyle={{color: menuColor}}
           left={homeScreen ? <MenuIcon heading={$labels.COMMON.FULL_TITLE} subheading={Config.BUILD === 'Development' ? 'ALPHA' : Config.BUILD === 'Test' ? 'BETA' : ''} /> : <BackIcon />}
           right={<RowView>
             <IconWithHint tapInsideCloses

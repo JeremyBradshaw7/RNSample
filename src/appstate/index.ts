@@ -144,9 +144,6 @@ if (TimelineReducer) {
   reducers['timeline'] = getReducer('timeline', TimelineReducer);
 }
 
-// console.log(`Combine ${Object.keys(reducers)} reducers`);
 const rootReducer = combineReducers(reducers);
-
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
-
 export default persistedReducer;

@@ -53,7 +53,6 @@ export const EventTile: React.FC<Props> = ({ event, index, showDateHeader, navig
         setBusy(true);
         const hdr = await dispatch(getAssessmentWithHeader(event.data.link));
         setBusy(false);
-        // logger('GO TO ASSESSMENT', event.data.link, hdr);
         if (!!hdr) {
           navigation.navigate('Assessment', {
             sortedHeaders: [hdr],
@@ -70,7 +69,6 @@ export const EventTile: React.FC<Props> = ({ event, index, showDateHeader, navig
   };
 
   // Main render:
-  // logger('EventTile', { event, index, previousEvent }, !previousEvent || Util.truncateDate(previousEvent.timestamp) !== Util.truncateDate(event.timestamp));
   return (
     // Below width setting only works because this tile is given the full width of the screen by the parent screen
     <View>
@@ -85,7 +83,6 @@ export const EventTile: React.FC<Props> = ({ event, index, showDateHeader, navig
         <View style={[
           eventStyles.boxStyle,
           Platform.OS === 'ios' && commonStyles.shadow,
-          // isTablet && isPortrait && { minHeight: 100 }, // until pageSize supported in API
           { marginHorizontal: isTablet ? 20 : 10 } // room for shadow
         ]}>
           <RowView top nowrap>

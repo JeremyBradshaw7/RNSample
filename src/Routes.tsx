@@ -459,15 +459,11 @@ export const WelcomeStack = () => {
  * Main Menu - Drawer
  *************************/
 
-// Temporary placeholders for other stacks that will be developed later, using minimum syntax
-// const Learners = () => <Text>Learners</Text>;
-
 const Drawer = createDrawerNavigator();
 
 export const RootStack = () => {
-  // logger('render RootStack', Util.isLearner(), Util.isStaff(), Util.isAdmin());
   return (
-    <Drawer.Navigator // initialRouteName='Welcome'
+    <Drawer.Navigator
       screenOptions={{
         unmountOnBlur: true
       }}
@@ -476,23 +472,13 @@ export const RootStack = () => {
         activeTintColor: WallpaperPrimaryColor,
         inactiveTintColor: WallpaperPrimaryColor
       }}
-      drawerContent={(props) => <BurgerMenu {...props} />} // ?
+      drawerContent={(props) => <BurgerMenu {...props} />}
       drawerPosition={'left'}
       edgeWidth={0} // 0 stops swipe to show from left
-      // minSwipeDistance={900}
-      // drawerType={'front'}
       overlayColor={'rgba(0,0,0,0.85)'}
     >
       <Drawer.Screen name='Welcome' component={WelcomeStack} />
       <Drawer.Screen name='Timeline' component={TimelineStack} />
-
-      {/* These dummy menu options for FADEMO: */}
-      <Drawer.Screen name='MRP' component={Welcome} />
-      <Drawer.Screen name='CPL' component={Welcome} />
-      <Drawer.Screen name='MYD' component={FADemoDAP} />
-      <Drawer.Screen name='CDI' component={Welcome} />
-      <Drawer.Screen name='NAE' component={Welcome} />
-      <Drawer.Screen name='FADemo' component={FADemoStack} />
 
       <Drawer.Screen name='OnlineLearning' component={OnlineLearningStack} />
       <Drawer.Screen name='FormativeAssessments' component={FormativeAssessmentsStack} />
@@ -510,17 +496,9 @@ export const RootStack = () => {
       <Drawer.Screen name='MyEvidenceAssessments' component={AssessmentsStack} />
       <Drawer.Screen name='AssessmentReport' component={AssessmentReportStack} />
 
-      {/* These dummy menu options for AUDITDEMO: */}
-      {/* <Drawer.Screen name='CPRC' component={Welcome} />P
-      <Drawer.Screen name='SPRC' component={Welcome} />
-      <Drawer.Screen name='AAF' component={Welcome} />
-      <Drawer.Screen name='AGCS' component={Welcome} />
-      <Drawer.Screen name='CGCS' component={Welcome} /> */}
-
       <Drawer.Screen name='MyCPD' component={MyCPDStack} />
       <Drawer.Screen name='CPDAssessments' component={CPDStack} />
       <Drawer.Screen name='EmsTaskList' component={EmsTasksStack} />
-      {Util.PDFFolders() && <Drawer.Screen name='PdfPager' component={PdfPager} />}
       <Drawer.Screen name='DisciplineReports' component={DisciplineReportsStack} />
       <Drawer.Screen name='QuizResults' component={QuizResults} />
       <Drawer.Screen name='Logout' component={Welcome} />
@@ -528,16 +506,3 @@ export const RootStack = () => {
     </Drawer.Navigator>
   );
 };
-
-  // These were all dummy PAR options on the menu
-  // Learners: { screen: Welcome },
-  // Staff: { screen: Welcome },
-  // Attendance: { screen: Welcome },
-  // OffTheJobHours: { screen: Welcome },
-  // KnowledgeMarking: { screen: Welcome },
-  // SkillsExerciseAssessments: { screen: Welcome },
-  // WorkplaceReviewVisits: { screen: Welcome },
-  // Evidence: { screen: Welcome },
-  // EmsWorkForAssessment: {
-  //   screen: () => <WebViewRoot title={$labels.MENU.EmsWorkForAssessment} url={Api.emsUrl('/ems/assessment/outstanding-work', true, false)} />
-  // },

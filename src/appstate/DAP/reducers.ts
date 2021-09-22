@@ -22,14 +22,6 @@ export const INITIAL_STATE: IDAPState = {
 
 export default (state: IDAPState = INITIAL_STATE, action): IDAPState => {
   switch (action.type) {
-    // case REHYDRATE:
-    //   logger('rehydrating, init api', state);
-    //   return { // THIS DOES NOT SEEM TO WORK!
-    //     ...state,
-    //     // do not rehydrate these (NB. redux persist blacklist only works at root level):
-    //     pendingEvidenceLinks: {},
-    //     pendingEvidence: {}
-    //   };
 
     case 'AUTH_SWITCH_ACCOUNT':
       return { ...state, ...INITIAL_STATE }; // clear cache on switching account

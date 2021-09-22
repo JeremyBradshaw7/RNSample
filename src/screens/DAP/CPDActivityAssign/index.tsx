@@ -36,14 +36,12 @@ import { Branding } from 'services/Branding';
 interface Props {
   navigation: any;
   cpdActivities: ICPDActivity[];
-  // establishments: ICodeMap;
   getVisibleCPDActivities: typeof getVisibleCPDActivities;
 }
 interface State {
   fetching: boolean;
   copyBusy: boolean;
   refreshing: boolean;
-  // defaultEstablishment: number | null;
   landscape: boolean;
   page: number;
   pagingEnd: boolean;
@@ -53,7 +51,6 @@ interface State {
   copyModal: boolean;
   copyCPDActivity: ICPDActivity | null;
   copyTitle: string;
-  // copyEstablishment: number | null;
 }
 
 class CPDActivityAssignList extends React.Component<Props, State> {
@@ -61,7 +58,7 @@ class CPDActivityAssignList extends React.Component<Props, State> {
   // Header configuration
   static navigationOptions = () => {
     return {
-      header: null // we'll add our own header
+      header: null
     };
   };
 
@@ -72,7 +69,6 @@ class CPDActivityAssignList extends React.Component<Props, State> {
       fetching: false,
       copyBusy: false,
       refreshing: false,
-      // defaultEstablishment: Util.isAdmin() || _.isEmpty(props.establishments) ? null : parseInt(Object.keys(props.establishments)[0], 10),
       landscape: ScreenInfo.isLandscape(),
       page: 1,
       pagingEnd: false,
@@ -81,31 +77,19 @@ class CPDActivityAssignList extends React.Component<Props, State> {
       copyArmed: false,
       copyModal: false,
       copyCPDActivity: null,
-      copyTitle: '',
-      // copyEstablishment: null
+      copyTitle: ''
     };
   }
 
-  UNSAFE_componentWillReceiveProps(newProps: Props) {
-    logger('CPDActivitiesAssign CWRP', newProps);
-  //   this.setState({
-  //     defaultEstablishment: Util.isAdmin() || _.isEmpty(newProps.establishments) ? null : parseInt(Object.keys(newProps.establishments)[0], 10)
-  //   });
-  }
-
   UNSAFE_componentWillMount() {
-    logger('CPDActivitiesAssign CWM');
-    // this.props.getEstablishments(true); // dont have to wait for this
     this.fetchCPDActivities();
   }
 
   componentDidMount() {
-    logger('CPDActivitiesAssign CDM');
     Analytics.logScreen('CPDActivities');
     Dimensions.addEventListener('change', this.onScreenResize);
   }
   componentWillUnmount() {
-    logger('CPDActivitiesAssign CWU');
     Dimensions.removeEventListener('change', this.onScreenResize);
   }
   onScreenResize = () => {
@@ -119,9 +103,7 @@ class CPDActivityAssignList extends React.Component<Props, State> {
   async fetchCPDActivities(page: number = 1) {
     try {
       this.setState({ fetching: true, page });
-      // logger('QUERY PAGE', page);
       const pageResult: any = await this.props.getVisibleCPDActivities(page);
-      // logger('PAGERESULT', page, pageResult);
       this.setState({ fetching: false, pagingEnd: pageResult.page >= pageResult.lastPage, total: pageResult.total });
     } catch (err) {
       this.setState({ fetching: false });
@@ -129,7 +111,6 @@ class CPDActivityAssignList extends React.Component<Props, State> {
     }
   }
   async nextPage() {
-    // logger('nextPage', this.props.configs.length);
     if (!this.state.pagingEnd && !this.state.paging && !this.state.fetching) {
       this.setState({ paging: true });
       await this.fetchCPDActivities(this.state.page + 1);
@@ -142,28 +123,19 @@ class CPDActivityAssignList extends React.Component<Props, State> {
   }
 
   renderCPDActivity(activity: ICPDActivity, index: number) {
-    // const est: string = !activity.establishmentId ? $labels.CONFIG.PUBLIC : !this.props.establishments ? '' : this.props.establishments[activity.establishmentId];
-    // const disabled = !Util.isAdmin() && !activity.establishmentId; // dont allow edit of public config by non-admin (if we ever show them)
-    // if (!est) { // indicates that establishment shouldn't be visible, so hide it
-    //   return null;
-    // }
-    // logger('CONFIG', config, assType, this.props.assessmentTypes);
     const fg = Branding.WallpaperForeground();
     return (
       <FullWidthLink
-        key={index.toString()} // {config.guid}
-        // first={index === 0} // doest work if we might hide first, use ListHeaderComponent instead
+        key={index.toString()}
         label={activity.title}
-        disabled={/*disabled ||*/ this.state.copyArmed}
+        disabled={this.state.copyArmed}
         iconName={ScreenInfo.isTablet() ? 'certificate' : ''} iconType={'MaterialCommunityIcons'} iconStyle={{ opacity: 0.5 }}
         secondaryLabel={activity.description} secondaryLabelLines={2}
         textStyle={{ fontSize: ScreenInfo.isLandscape() ? 16 : 15 }}
         secondaryTextStyle={{ paddingTop: 4, color: fg + '99', fontSize: ScreenInfo.isLandscape() ? 14 : 13 }}
-        // secondaryIcon={'gear'}
         onPress={() => this.pickCPDActivity(activity)}
         pickComponent={(
           <RowView>
-            {/* <Text numberOfLines={3} style={{ maxWidth: ScreenInfo.isTablet() ? 140 : 100, color: fg + '99', fontSize: 12, paddingHorizontal: 6, textAlign: 'right' }}>{est}</Text> */}
             {this.state.copyArmed ?
               <RoundButton transparent small label={$labels.CONFIG.COPY} style={{ marginRight: -6 }} onPress={() => {
                 this.setState({ copyModal: true, copyCPDActivity: activity, copyTitle: activity.title /*, copyEstablishment: activity.establishmentId || this.state.defaultEstablishment*/ });
@@ -230,7 +202,6 @@ class CPDActivityAssignList extends React.Component<Props, State> {
           onEndReached={this.nextPage.bind(this)}
           onEndReachedThreshold={0.01}
         />
-        {/* } */}
         <InlineSpinner style={{ marginTop: 2, marginBottom: 2, alignSelf: 'center' }} visible={this.state.paging} />
       </View>
     );
@@ -241,14 +212,12 @@ class CPDActivityAssignList extends React.Component<Props, State> {
   }
 
   render() {
-    // logger('render Establishments', this.props.establishments);
     const { landscape } = this.state;
     const fg = Branding.WallpaperForeground();
     return (
       <Wallpaper>
         <View style={{ flex: 1 }}>
           <TransparentHeader
-            // activity={this.state.fetching}
             left={<BackIcon />}
             right={(
               <RowView nowrap>
@@ -281,7 +250,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: IState, ownProps: Props) => {
   return {
-    // establishments: selectEstablishments()(state),
     cpdActivities: makeGetSortedCPDActivitiesVisible()(state)
   };
 };

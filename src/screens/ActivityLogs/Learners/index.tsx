@@ -179,15 +179,12 @@ class LearnersContainer extends React.Component<Props, State> {
     this.setState({ addLearnerVisible: true }, async () => {
       const learners: any = await this.props.getNewLearners();
       const newLearners: IAnyMap = Util.arrayToMap(learners, 'id', true);
-      // logger('LEARNERS', learners);
       this.setState({ newLearners });
     });
   }
   onAddLearner(keys: string[]) {
-    // logger('onAddLearner', keys, this.state.newLearners);
     if (keys.length > 0) {
       const newLearner: IEmsLearner = this.state.newLearners[keys[0]];
-      // logger(newLearner);
       if (newLearner) {
         this.setState({ newLearnerSelected: newLearner });
       }
@@ -207,19 +204,6 @@ class LearnersContainer extends React.Component<Props, State> {
     }
     this.setState({ addLearnerVisible: false, newLearnerSelected: null });
   }
-
-  // handleScroll(y: number) {
-  //   if (y > 50 && !this.state.hideHeaders) {
-  //     this.setState({ hideHeaders: true, sortVisible: false }); // TODO: instead of a switch animate the hide/show for smoother transition
-  //   } else if (y < 30 && this.state.hideHeaders) {
-  //     this.setState({ hideHeaders: false });
-  //   }
-  // }
-  // async onFilterApply() {
-  //   this.setState({ filterShown: false, total: 0 }, () => {
-  //     this.fetchCPDAssessments(1);
-  //   });
-  // }
 
   render() {
     return (
@@ -248,7 +232,6 @@ class LearnersContainer extends React.Component<Props, State> {
               onToggleFilter={() => this.showFilter()}
             />
           </View>
-          {/* <Image style={[commonStyles.leftPaneShadow, this.state.currentLearnerIndex > -1 && { marginTop: 100 }]} resizeMode='stretch' source={require('assets/shadow20.png')} /> */}
 
           {this.state.dualPane &&
             <View style={styles.rightPane}>
@@ -435,19 +418,15 @@ const mapDispatchToProps = {
   addNewLearner: addNewAtivityLogLearner,
   getActivityLogEstablishments,
   getActivityLogQualifications
-  // setCPDAssessmentFilter,
-  // setCPDAssessmentSort
 };
 
 // function within a function form of mapStateToProps allows us to pass ownProps to selectors
 const mapStateToProps = () => {
-  // logger('>');
   const getSortedLearners = makeGetSortedLearners();
 
   return (state: IState, ownProps: Props) => {
     return {
       sortedLearners: getSortedLearners(state)
-      // savedCPDFilter: state.cpd.userCPDFilters[state.auth.id]
     };
   };
 };

@@ -18,7 +18,6 @@ export const getTimelineEvents = (page: number, pageSize: number, throwError: bo
     } catch (err) {
       dispatch({ type: 'TIMELINE_EVENTS_FETCH_FAIL' });
       if (throwError) {
-        // ErrorService.logError('TIMELINE_EVENTS_FETCH_FAIL', err);
         throw err;
       }
       return null;
@@ -29,7 +28,6 @@ export const getTimelineEvents = (page: number, pageSize: number, throwError: bo
 export const setHomeScreenPreference = (showAsHomeScreen: boolean) => {
   return async (dispatch, getState) => {
     try {
-      // const json: any = await Api.setHomeScreenPreference(showAsHomeScreen);
       dispatch({
         type: 'TIMELINE_PREFS_HOMESCREEN',
         showAsHomeScreen
@@ -40,18 +38,3 @@ export const setHomeScreenPreference = (showAsHomeScreen: boolean) => {
     }
   };
 };
-
-// export const setEventTypePreferences = (eventTypeMapping: EventTypeMapping) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       // const json: any = await Api.setEventTypePreferences(eventTypeMapping);
-//       dispatch({
-//         type: 'TIMELINE_PREFS_EVENTTYPES',
-//         eventTypeMapping
-//       });
-//     } catch (err) {
-//       ErrorService.logError('TIMELINE_PREFS_EVENTTYPES_FAIL', err);
-//       throw err;
-//     }
-//   };
-// };

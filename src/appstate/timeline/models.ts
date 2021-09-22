@@ -12,12 +12,6 @@ export interface ITimelineState {
 // type mapping for whether to show each event template type
 export type EventTypeMapping = { [templateId: number]: boolean; };
 
-// created_at: "2021-07-08 15:00:31"
-// data: {type: "assessment", link: "5a4ab285-9b78-47b9-96a7-2995326ba290"}
-// detailed: "You completed the scoring for Assessee"
-// short: "You completed the scoring for Assessee"
-// timeline_template_id: 3
-
 export interface ITimelineEvent {
   id: number;
   templateId: number;
@@ -28,7 +22,6 @@ export interface ITimelineEvent {
 
 export interface ITimelinePreferences {
   homeScreen: boolean; // preference to show timeline as home screen
-  // showEventType: EventTypeMapping;
 }
 
 // Deserialisers

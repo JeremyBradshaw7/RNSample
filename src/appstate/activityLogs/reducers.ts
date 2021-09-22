@@ -16,21 +16,12 @@ function computeLearnerPercentageComplete (state: IActivityLogState, learnerId: 
   const tot = (state.learnerActivities[learnerId] || []).reduce((sum: number, a: IActivityLog) => sum + a.minutes, 0);
   const max = ((state.learners[learnerId] || {}).maxHours || 0) * 60;
   const pc = max === 0 ? 0 : (tot * 100) / max;
-  // logger(`RECALC % ${tot} / ${max} = ${pc}%`);
   state = dotProp.set(state, `learners.${learnerId}.percentageComplete`, Math.round(pc));
   return state;
 }
 
 export default (state: IActivityLogState = INITIAL_STATE, action): IActivityLogState => {
   switch (action.type) {
-    // case REHYDRATE:
-    //   logger('rehydrating, init api', state);
-    //   return { // THIS DOES NOT SEEM TO WORK!
-    //     ...state,
-    //     // do not rehydrate these (NB. redux persist blacklist only works at root level):
-    //     pendingEvidenceLinks: {},
-    //     pendingEvidence: {}
-    //   };
 
     case 'LEARNERLOGS_FETCH_SUCCESS':
       if (action.page === 1) {

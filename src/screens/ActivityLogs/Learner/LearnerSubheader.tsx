@@ -41,18 +41,6 @@ export class LearnerSubheader extends React.Component<Props, State> {
     this.setState({ learnerIndex: nextProps.learnerIndex });
   }
 
-  // renderDot(a: ILearner, index: number) {
-  //   if (index < this.state.pendingIndex - 10 || index > this.state.pendingIndex + 10) {
-  //     return null;
-  //   }
-  //   if (index === this.state.pendingIndex) {
-  //     return <View key={index} style={{ marginHorizontal: 4, width: 10, height: 10, borderRadius: 5, backgroundColor: 'black' }} />;
-  //   } else {
-  //     const opacity = Math.abs(this.state.pendingIndex - index) <= 5 ? 1 : 1 / (Math.abs(this.state.pendingIndex - index) - 4);
-  //     return <View key={index} style={{ marginHorizontal: 4, width: 10, height: 10, borderRadius: 5, opacity, backgroundColor: 'lightgray' }} />;
-  //   }
-  // }
-
   renderLearnerSummary(learner: IEmsLearner) {
     const dualPane = ScreenInfo.supportsDualPane();
     return (
@@ -147,7 +135,6 @@ export class LearnerSubheader extends React.Component<Props, State> {
   render() {
     const { learnerList } = this.props;
     const learner = learnerList[this.state.learnerIndex];
-    // const dots = this.props.swipeable && learnerList.length <= 10 ? learnerList.map((a: ILearner) => this.renderDot(a, i++)) : null;
     return (
       <GestureView
         style={{ flexDirection: 'column', backgroundColor: Theme.lightbg }}

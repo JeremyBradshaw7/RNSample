@@ -1,5 +1,4 @@
 import Api from 'services/Api';
-// import { Deserialisers } from './models';
 import { IPageInfo, IState } from '..';
 import { logger } from 'services/logger';
 import ErrorService from 'services/Error';
@@ -11,7 +10,6 @@ import Analytics from 'services/Analytics';
 export const getActivityLogLearners = (page: number, namePattern: string, classPattern: string, orgMatch: string, coursePattern: string, qualMatch: string) => {
   return async (dispatch, getState): Promise<IPageInfo> => {
     try {
-      // dispatch({ type: 'LEARNERS_FETCH', userid: getState().auth.id, page });
       const json: any = await Api.getActivityLogLearners(page, namePattern, classPattern, orgMatch, coursePattern, qualMatch);
       const result = json.result || {};
       const learners: IEmsLearner[] = deserialiseLearnerArray(result.data);
@@ -47,8 +45,6 @@ export const addNewAtivityLogLearner = (newUserId: number) => {
     try {
       const json: any = await Api.addNewAtivityLogLearner(newUserId);
       Analytics.logEvent('addNewAtivityLogLearner', { newUserId });
-      // const learner: ILearner = deserialiseLearner(json);
-      // TODO: when API returns detail just add that to redux data then wont have to refresh in component
     } catch (err) {
       ErrorService.logError('ADD_LEARNER_FAIL', err);
       throw err;

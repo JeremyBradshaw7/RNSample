@@ -169,15 +169,12 @@ class Learner extends React.Component<Props, State> {
     this.props.savePreferences({ activitySortColumn: column, activitySortOrder: direction });
   }
   async addComment(activityGuid: string, comment: string) {
-    // logger('addComment', activityGuid, comment);
     await this.props.addActivityLogComment(this.props.currentLearner.id, activityGuid, comment);
   }
   async updateComment(activityGuid: string, commentId: string, comment: string) {
-    // logger('updateComment', activityGuid, comment);
     await this.props.updateActivityLogComment(this.props.currentLearner.id, activityGuid, commentId, comment);
   }
   async deleteComment(activityGuid: string, commentGuid: string) {
-    // logger('deleteComment', activityGuid, commentGuid);
     await this.props.deleteActivityLogComment(this.props.currentLearner.id, activityGuid, commentGuid);
   }
 
@@ -201,14 +198,12 @@ class Learner extends React.Component<Props, State> {
   }
 
   async saveActivity() {
-    logger('saveActivity');
     const originalActivity = this.state.addActivity ? NEW_ACTIVITY(this.props.currentLearner.id) : this.props.activities.find((act: IActivityLog) => this.state.editActivity && act.guid === this.state.editActivity.guid);
     if (this.state.addActivity || !originalActivity || !_.isEqual(originalActivity, this.state.editActivity)) { // something's changed
       const errors = {
         description: this.state.editActivity !== null && !this.state.editActivity.description,
         time: this.state.editActivity !== null && this.state.editActivity.minutes <= 0
       };
-      logger('errors', errors);
       if (errors.description) {
         Toast.showError($labels.ACTIVITY_LOGS.MANDATORY_DESCRIPTION, 3000, 'activity');
       }
@@ -250,7 +245,7 @@ class Learner extends React.Component<Props, State> {
         // pre-delete comments
         const deleteCommentPromises: any = this.state.editActivity.comments.map((comment: IActivityComment) => this.props.deleteActivityLogComment(this.props.currentLearner.id, (this.state.editActivity || { guid: '' }).guid || '', comment.guid));
         await Promise.all(deleteCommentPromises);
-        // same for attachments ?
+        // same for attachments
         await this.props.deleteActivityLog(this.props.currentLearner.id, this.state.editActivity.guid);
         this.setState({ busy: false });
         this.setState({ editActivity: null });
@@ -262,7 +257,6 @@ class Learner extends React.Component<Props, State> {
   }
 
   renderActivity(activity: IActivityLog) {
-    // const edit = !!this.state.editActivity && this.state.editActivity.guid === activity.guid;
     return (
       <TouchableOpacity disabled={!this.props.updatePrivilege} onPress={() => this.toggleEdit(activity)}>
         <View style={styles.activity}>
@@ -302,7 +296,6 @@ class Learner extends React.Component<Props, State> {
   }
 
   render() {
-    // logger('**** LEARNER render');
     if (this.props.currentLearnerIndex === -1) {
       return null;
     }
@@ -313,9 +306,7 @@ class Learner extends React.Component<Props, State> {
     return (
       <View
         style={styles.container}
-      // ref={(ref) => this._vref = ref}
       >
-        {/* <Text>{this.props.createPrivilege ? 'CREATE' : 'create'} / {this.props.updatePrivilege ? 'UPDATE' : 'update'}</Text> */}
         <View style={[styles.hline, commonStyles.shadow]}>
           <LearnerSubheader
             learnerList={this.state.sortedLearners}
@@ -354,8 +345,7 @@ class Learner extends React.Component<Props, State> {
           <InModal
             backgroundColor={Theme.background}
             isVisible={!!this.state.editActivity}
-            onClose={() => /*(!this.state.addActivity || !this.state.dualPane) ? this.saveActivity() :*/ this.cancelEdit()} // used to be: update or full-screen-add just save on close
-            // adjustHeight={this.state.addActivity}
+            onClose={() => this.cancelEdit()} // used to be: update or full-screen-add just save on close
             avoidKeyboard
             noAnimation
             title={this.state.addActivity ? $labels.ACTIVITY_LOGS.ADD_ACTIVITY : $labels.ACTIVITY_LOGS.EDIT_ACTIVITY}
@@ -428,7 +418,6 @@ class Learner extends React.Component<Props, State> {
             {this.props.createPrivilege && !this.state.addActivity &&
               <Fab
                 direction='left'
-                // containerStyle={{ bottom: 0, right: 8 }} // to stop its natural bottom padding
                 style={{ backgroundColor: Theme.red }}
                 position='bottomRight'
                 onPress={() => this.askDeleteActivity()}
@@ -487,8 +476,6 @@ const styles: any = EStyleSheet.create({
 });
 
 const mapStateToProps = () => {
-  // const getAssessmentTree = makeGetAssessmentTree();
-
   return (state: IState, ownProps: Props) => {
     const learnerId: number = ownProps.currentLearnerIndex < ownProps.sortedLearners.length && !!ownProps.sortedLearners[ownProps.currentLearnerIndex] ? ownProps.sortedLearners[ownProps.currentLearnerIndex].id : -1;
     return {

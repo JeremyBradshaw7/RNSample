@@ -67,7 +67,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
 
   const mergeCourses = (): ICourse[] => {
     // My courses must merge in responsible and all;
-    // logger('mergeCourses');
     const _courses: ICourse[] = _.clone(assignedCourses);
     responsibleCourses.forEach((rCourse: ICourse) => {
       // eslint-disable-next-line eqeqeq
@@ -81,7 +80,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
         _courses.push(aCourse);
       }
     });
-    // logger('=', courses);
     return _courses;
   };
   const isAssignedCourse = (course: ICourse) => {
@@ -130,11 +128,8 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   const [openLink, setOpenLink] = useState(false);
 
   // Custom hooks:
-  const { linkColor, primaryBackgroundColor, secondaryBackgroundColor, primaryForegroundColor } = useBranding();
-  const { isLandscape, isPortrait, isPhone, isTablet, width } = useScreen();
-
-  // Constants:
-  // const background = Util.ArmyPilot() ? secondaryBackgroundColor : primaryBackgroundColor;
+  const { linkColor } = useBranding();
+  const { isLandscape, isPhone, isTablet } = useScreen();
 
   // Effects:
   useEffect(() => {
@@ -148,14 +143,12 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   // Fetch necessary data on startup
   useEffect(() => {
     if (!isLearner) {
-      // get stuff for user filter in background
       dispatch(getEstablishments());
       dispatch(getAssessmentFilters('_cat1', Util.screenUrl(1), null)); // borrow assessment filters to get cohorts list
     }
-    // if we want to wait for result in useEffect we have to create async function for it:
-    fetchStuff();
+    fetchCourses();
   }, []);
-  // fetchStuff when completed invokes this:
+  // fetchCourses when completed invokes this:
   useEffect(() => {
     // only want to do this after courses refreshed else can show picker of all courses before resticting it to just the evidence item courses
     if (!initialising) {
@@ -168,7 +161,7 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
     if (!!courses && courses.length > 0 && !!courseRef && !courseId) {
       if (!!courses && courses.length === 1) {
         // auto-select if only one
-        pickCourse(courses[0].id.toString()); // not quite sure why toString needed!
+        pickCourse(courses[0].id.toString());
       } else {
         courseRef.show();
       }
@@ -189,7 +182,7 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   });
 
   // Local methods:
-  const fetchStuff = async () => {
+  const fetchCourses = async () => {
     try {
       setLoading(true);
       await dispatch(getMyCourses(true));
@@ -234,7 +227,7 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
     {
       // A getNextPageParam option is available for both determining if there is more data to load and the
       // information to fetch it. This information is supplied as an additional parameter in the query function
-      getNextPageParam: (lastPageInfo /*, allGroups*/) => {
+      getNextPageParam: (lastPageInfo) => {
         return lastPageInfo.page < lastPageInfo.lastPage ? lastPageInfo.page + 1 : false; // return page number of next if more is available, else falsy
       },
       onError: (err) => {
@@ -259,7 +252,7 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   useEffect(() => {
     // when last person selected check if there are more to fetch
     if (!!person && assignedLearners.length > 0 && person.id === assignedLearners[assignedLearners.length - 1].id && hasNextPage && !isFetching) {
-      fetchNextPage();      // this gets the next page based on the getNextPageParam result
+      fetchNextPage(); // this gets the next page based on the getNextPageParam result
     }
   }, [person]);
 
@@ -282,7 +275,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
     if (index <= 0) {
       return null;
     }
-    // logger('prevUser', index, assignedLearners[index + 1]);
     return assignedLearners[index - 1];
   };
 
@@ -294,7 +286,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
     if (index === -1 || index >= assignedLearners.length - 1) {
       return null;
     }
-    // logger('nextUser', index, assignedLearners[index + 1]);
     return assignedLearners[index + 1];
   };
 
@@ -317,7 +308,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const toggleAssessment = (guid: string) => {
-    // logger('toggleAssessment');
     const keys = [...selectedAssessments];
     const idx = _.indexOf(keys, guid);
     if (idx !== -1) {
@@ -326,22 +316,18 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
       keys.push(guid);
     }
     setSelectedAssessments(keys);
-    // logger('>>', keys, keys.indexOf(guid));
   };
   const toggleAllAssessments = () => {
     if (selectedAllAssessments) {
       setSelectedAssessments([]);
     } else if (!!view) {
-      // turn all on
       setSelectedAssessments(view.modules.reduce((arr: string[], m) => arr.concat(m.evidenceActivities.reduce((arr2: string[], ass) => arr2.concat(ass.guid), [])), []));
     }
     setSelectedAllAssessments(!selectedAllAssessments);
   };
 
   const onScroll = (contentOffset: any) => {
-    // logger('ONSCROLL', contentOffest, this.state);
     const y = contentOffset.y;
-    // this.props.onScroll(y);
     if (y > 140 && !headerMinimised) {
       Anim.EaseNext(500);
       setHeaderMinimised(true);
@@ -352,11 +338,10 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const askExport = async () => {
-    setExporting(true); // invokes the modal
+    setExporting(true);
   };
 
   // Render methods:
-
   const renderFilter = () => {
     return (
       <View style={{ flexDirection: isTablet ? 'row' : 'column', padding: 10 }}>
@@ -483,7 +468,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
         <RowView style={{ maxWidth: 240, height: 70 }} nowrap left>
           {view.chartData.map((col) => {
             const h = max === 0 ? 0 : Math.round((55 * col.count) / max);
-            // logger('col', {col, h});
             return (
               <View key={`col_${col.score}`} style={{ flex: 1, alignItems: 'center', height: 63 }}>
                 <View style={{ width: '90%', height: 55, justifyContent: 'flex-end' }}>
@@ -510,7 +494,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
       <View>
         {!headerMinimised && <RowView nowrap left bottom style={{ marginBottom: 10 }}>
           <View>
-            {/* <Text style={{ fontSize: 16, color: '#666', marginBottom: 5 }}>{$labels.EPA.SUMMARY}</Text> */}
             <View>
               <Text style={[hdrStyle]}>{$translate('EPA.CRITERIA_COUNTS', { count: view.criteriaAchieved, total: view.criteriaCount })}</Text>
               <Pie radius={32} innerRadius={16} strokeCap={'butt'} backgroundColor={'#ddd'} dividerSize={0}
@@ -697,7 +680,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
           </RowView>}
         title={$labels.EPA.TITLE}
         right={
-          // !!person && !!view ? <LinkButton disabled={selectedAssessments.length === 0} large={isTablet} color={primaryForegroundColor} label={isTablet ? $labels.EPA.EXPORT : ''} iconName={'cloud-download'} onPress={() => doExport()} /> :
           <HelpMenu />
         }
       />

@@ -64,13 +64,8 @@ export default class LearnerNavigable extends React.Component<Props, State> {
         [key]: nextProps[key]
       };
     }, {});
-    // logger('Props Diff:', propsDiff, Object.keys(propsDiff).indexOf('navigation') === 0 && Object.keys(propsDiff).length === 1);
     // Dont re-render if only navigation state changed (does thru setParams)
     return this.state !== nextState || !(Object.keys(propsDiff).indexOf('navigation') === 0 && Object.keys(propsDiff).length === 1);
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps: Props) {
-    //
   }
 
   changeLearner(index: number) {

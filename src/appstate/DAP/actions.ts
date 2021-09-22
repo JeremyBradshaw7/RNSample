@@ -279,11 +279,6 @@ export const upsertPersonQualification = (pq: IPersonDAPQualification) => {
     try {
       const data: any = await Api.upsertPersonQualification(pq);
       Analytics.logEvent('upsertPersonQualification');
-      // dispatch({
-      //   type: 'DAP_PERSON_QUALIFICATION_UPSERT_SUCCESS',
-      //   userid: getState().auth.id,
-      //   id: qualification.id
-      // });
       return data.id; // new ID on an insert
     } catch (err) {
       ErrorService.logError('DAP_PERSON_QUALIFICATION_UPSERT_FAIL', err);
@@ -297,9 +292,6 @@ export const deletePersonQualification = (id: string) => {
     try {
       const data: any = await Api.deletePersonQualification(id);
       Analytics.logEvent('deletePersonQualification');
-      // dispatch({
-      //   type: 'DAP_PERSON_QUALIFICATION_DELETE_SUCCESS'
-      // });
     } catch (err) {
       ErrorService.logError('DAP_PERSON_QUALIFICATION_DELETE_FAIL', err);
       throw err;

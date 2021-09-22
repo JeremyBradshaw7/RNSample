@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { IState } from 'appstate';
 import { $labels, $translate } from 'services/i18n';
 import { logger } from 'services/logger';
-// import { selectEstablishments } from 'appstate/config/selectors';
 import Toast from 'services/Toast';
 import ErrorService from 'services/Error';
 import Analytics from 'services/Analytics';
@@ -37,7 +36,6 @@ import { Branding } from 'services/Branding';
 interface Props {
   navigation: any; // the stack navigator
   route: any;
-  // establishments: ICodeMap;
   scormList: IAnyMap;
   qualifications: ICodeMap;
   upsertCPDActivity: typeof upsertCPDActivity;
@@ -61,7 +59,6 @@ class CPDActivityAssignComponent extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    // logger('ctr', props);
     this.state = {
       activity: props.route.params.activity,
       landscape: ScreenInfo.isLandscape(),
@@ -85,20 +82,12 @@ class CPDActivityAssignComponent extends React.Component<Props, State> {
   };
 
   valError() {
-    // const { activity } = this.state;
-    // if (!activity.title) {
-    //   return $translate('VALIDATION.MANDATORY', { field: $labels.DAP.CPD_ACTIVITY + ' ' + $labels.CONFIG.TITLE });
-    // }
     return '';
   }
 
   async save(goBack: boolean = true) {
     const { activity } = this.state;
     try {
-      // this.setState({ busy: true });
-      // await this.props.upsertCPDActivity(activity);
-      // Toast.showSuccess($translate('GENERIC.X_SAVE_SUCCESS', { entity: $labels.DAP.CPD_ACTIVITY }));
-      // this.setState({ busy: false });
       if (goBack) {
         this.props.navigation.goBack();
       }
@@ -108,7 +97,6 @@ class CPDActivityAssignComponent extends React.Component<Props, State> {
     }
   }
   updateState(attrName: string, value: any) {
-    // logger('updateState', attrName, value);
     this.setState({
       activity: { ...this.state.activity, [attrName]: value },
       modified: true
@@ -163,7 +151,6 @@ const styles: any = EStyleSheet.create({
 
 const mapStateToProps = (state: IState, ownProps: Props) => {
   return {
-    // establishments: selectEstablishments()(state),
     qualifications: makeGetQualificationsList()(state),
     scormList: state.onlineLearning.scormList
   };

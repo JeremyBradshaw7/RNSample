@@ -19,7 +19,6 @@ export interface IDAPState {
 
   cpdActivityGroups: ICPDActivityGroupMap; // master map of CPD activity groups
   userCPDActivityGroupKeys: IUserCPDActivityGroupArrayMap; // user's cpd activity group keys array in order retrieved by paged API
-  // allACtivityGroups: ICodeMap;
   activityGroupCriteria: IActivityGroupCriteria; // available user/activity criteria for an activity Group
 }
 
@@ -121,12 +120,8 @@ export interface IDAPQualification {
   retentionTargetCredits: number | null;
   retentionTargetHours: number | null;
   reviewPeriod: number | null;
-  // tags: string[];
   eavAttributes: IEAVValueMap;
   activityIDs: string[];
-  // roleId: string; // guid
-  // sectionId: string; // guid
-  // staffGroupId: number | null; // staff group id
 }
 export function NEW_QUALIFICATION(establishmentId: number | null, sequence: number = 0): IDAPQualification {
   return {
@@ -135,7 +130,6 @@ export function NEW_QUALIFICATION(establishmentId: number | null, sequence: numb
     otherReference: '', periodOfStudy: null, preRequisiteComment: '', preRequisiteQualificationId: '',
     qualificationCode: '', qualificationLevel: '', retentionTargetCredits: null, retentionTargetHours: null,
     reviewPeriod: null, eavAttributes: {}, activityIDs: []
-    // roleId: '', sectionId: '', staffGroupId: null
   };
 }
 export interface IDAPQualificationMap { [id: string]: IDAPQualification; }
@@ -179,7 +173,6 @@ export class Deserialisers {
         id: cdata.id,
         title: cdata.title || '',
         description: cdata.description || '',
-        // establishmentId: qdata.establishment?.id || null,
         versionNumber: cdata.version_number || 0,
         public: cdata.public === 1,
         formal: cdata.formal === 1,
@@ -191,7 +184,6 @@ export class Deserialisers {
         isRepeatable: cdata.is_repeatable === 1,
         imageId: cdata.image || '',
         scormPath: cdata.scorm_path,
-        // tags: cdata.tags ? (Object.values(cdata.tags) as string[]).filter((tag: string) => tag.trim() !== '') : [],
         tags: cdata.tags ? (cdata.tags.map((tagobj) => tagobj.name) as string[]).filter((tag: string) => tag.trim() !== '') : [], // tags here is array of objects not array of strings
         eavAttributes: deserialiseEAVAttributeValues(cdata.eav_attributes),
         qualificationIDs:
@@ -272,7 +264,6 @@ export class Deserialisers {
     };
   }
   public static deserialiseActivityCriteriaArray(gdata: any): ICPDActivityGroupActivityCriteria[] {
-    // logger('deserialiseActivityCriteriaArray', gdata);
     const deserialiseEntityCriteria = (edata: any, entityName: string) => {
       if (edata && Array.isArray(edata)) {
         edata.forEach((cdata) => {
@@ -289,11 +280,9 @@ export class Deserialisers {
     };
     const criterias: ICPDActivityGroupActivityCriteria[] = [];
     deserialiseEntityCriteria(gdata.activity_criteria, 'activity');
-    // logger('=', criterias);
     return criterias;
   }
   public static deserialiseActivityCriteria(entity: string, cdata: any): ICPDActivityGroupActivityCriteria {
-    // logger('deserialiseActivityCriteria', cdata);
     return {
       id: cdata.id.toString() || '',
       attribute: cdata.attribute || '',
@@ -319,7 +308,6 @@ export class Deserialisers {
    */
   public static deserialiseDAPQualification(qdata: any): IDAPQualification {
     try {
-      // logger('- - deserialiseDAPQualification', qdata);
       const qual: IDAPQualification = {
         id: qdata.id,
         title: qdata.title || '',
@@ -339,13 +327,9 @@ export class Deserialisers {
         retentionTargetCredits: qdata.retention_target_credits || null,
         retentionTargetHours: qdata.retention_target_hours || null,
         reviewPeriod: qdata.review_period || null,
-        // tags: qdata.tags ? (Object.values(qdata.tags) as string[]).filter((tag: string) => tag.trim() !== '') : [],
         eavAttributes: deserialiseEAVAttributeValues(qdata.eav_attributes),
         activityIDs: !qdata.activities ? [] :
           qdata.activities.length > 0 && qdata.activities[0].hasOwnProperty('id') ? qdata.activities.map((obj: any) => obj.id) : (qdata.activities || []) // should cope with array of objects or array of ids
-        // roleId: qdata.cf_role_guid || '',
-        // sectionId: qdata.establishment_section_guid || '',
-        // staffGroupId: qdata.staff_group_id || null
       };
       return qual;
     } catch (err) {

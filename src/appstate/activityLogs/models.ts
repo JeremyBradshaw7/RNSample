@@ -126,7 +126,6 @@ export function deserialiseActivity(activityData: any): IActivityLog {
       comments: deserialiseActivityCommentArray(activityData.activity_comments || []),
       evidenceCount: activityData.file_count || 0
     };
-    // logger(activityData, activity);
     return activity;
   } catch (err) {
     ErrorService.logError('Exception in deserialising activity', err);

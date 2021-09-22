@@ -27,7 +27,6 @@ interface Props {
   onSelectLearner: Function;
   onRefresh: Function;
   onNextPage: Function;
-  // onScroll: Function;
   onAddLearner: () => void;
   onToggleFilter: () => void;
 }
@@ -95,7 +94,6 @@ class Learners extends React.Component<Props, State> {
 
   handleScroll(event: any) {
     const y = event.nativeEvent.contentOffset.y;
-    // this.props.onScroll(y);
     if (y > 40 && !this.state.hideHeaders) {
       Anim.EaseNext();
       this.setState({ hideHeaders: true });
@@ -104,17 +102,10 @@ class Learners extends React.Component<Props, State> {
       this.setState({ hideHeaders: false });
     }
   }
-  // resetScroll() {
-  //   const myList: any = this.refs['list'];
-  //   if (myList) {
-  //     myList.scrollToIndex({ index: 0 });
-  //   }
-  // }
 
   render() {
     return (
       <View style={{ flex: 1, paddingVertical: 8 }}>
-        {/* <Text>{this.props.createPrivilege ? 'CREATE' : 'create'} / {this.props.updatePrivilege ? 'UPDATE' : 'update'}</Text> */}
         {!this.state.hideHeaders && !Util.isLearner() &&
           <RowView nowrap style={{marginBottom: 4, marginHorizontal: 16}}>
             {this.props.createPrivilege && <RoundButton
@@ -163,7 +154,6 @@ const styles: any = EStyleSheet.create({
   leftBar: {
     width: 8,
     height: '100%',
-    // backgroundColor: 'lightgray',
     borderBottomLeftRadius: 6,
     borderTopLeftRadius: 6
   },

@@ -1,5 +1,4 @@
 import Theme from './Theme';
-import { logger } from './logger';
 import tinycolor from 'tinycolor2';
 
 export default class Colour {
@@ -17,7 +16,6 @@ export default class Colour {
     const g: number = parseInt(hexcolor.substr(3, 2), 16);
     const b: number = parseInt(hexcolor.substr(5, 2), 16);
     const yiq: number = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    // logger('getContrastColour', hexcolor, r, g, b, yiq, '=', (yiq >= 128) ? 'BLACK' : 'WHITE');
     return (yiq >= 128) ? '#000000' : '#ffffff';
   }
 
@@ -52,7 +50,6 @@ export default class Colour {
     const retval = base510 <= 255
       ? '#ff' + ('0' + base510.toString(16)).slice(-2) + '00'
       : '#' + ('0' + (510 - base510).toString(16)).slice(-2) + 'ff00';
-    // logger('getContinuousBandColour', value, maxval, base510, retval);
     return retval;
   }
 
