@@ -1,8 +1,7 @@
 import Api from 'services/Api';
-import { IPageInfo, IState } from '..';
-import { logger } from 'services/logger';
+import { IPageInfo } from '..';
 import ErrorService from 'services/Error';
-import { deserialiseEventArray, EventTypeMapping, ITimelineEvent } from './models';
+import { deserialiseEventArray, ITimelineEvent } from './models';
 
 // Redux Action Creators for Activity Logs
 

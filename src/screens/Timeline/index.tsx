@@ -10,7 +10,6 @@ import HelpMenu from 'components/HelpMenu';
 import { ITimelineEvent } from 'appstate/timeline/models';
 import { IPageInfo, IState } from 'appstate';
 import { getTimelineEvents, setHomeScreenPreference } from 'appstate/timeline/actions';
-import { logger } from 'services/logger';
 import Toast from 'services/Toast';
 import { RowView } from 'components/RowView';
 import Util from 'services/Util';
@@ -244,7 +243,6 @@ export const Timeline: React.FC<Props> = ({ navigation, route }) => {
         <FastImage resizeMode='contain'
           style={[!logoState.loaded && { marginRight: -500 }, styles.rightLogo, { width: logoState.width, height: logoState.height }, !!logoBackgroundColor && { backgroundColor: logoBackgroundColor }]}
           onLoad={(e) => handleLoad(e.nativeEvent.width, e.nativeEvent.height)}
-          onError={() => logger('Error loading logo url', logoUrl)}
           source={!!logoUrl ? { uri: logoUrl } : require('assets/branding/logo_white.png')}
         />
       </RowView>

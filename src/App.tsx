@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'; // https://github.com/kmagiera/react-native-gesture-handler/issues/320
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, UIManager, Platform, Alert } from 'react-native';
+import { View, UIManager, Platform } from 'react-native';
 import { Root } from 'native-base';
 import PrimaryNav from './screens/PrimaryNav';
 import { Provider } from 'react-redux';

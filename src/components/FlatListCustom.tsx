@@ -1,14 +1,13 @@
 import React from 'react';
 import { FlatListProps, FlatList as NativeFlatList, View } from 'react-native';
-import { logger } from 'services/logger';
 
-interface Props<ItemT> extends FlatListProps<ItemT> {
-}
+interface Props<ItemT> extends FlatListProps<ItemT> { }
 
-// Custom FlatList that doesnt try to virtualize when scrollEnabled={false}
-// Do this to avoid "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation" error in console
+/**
+ * Custom FlatList that doesnt try to virtualize when scrollEnabled={false}
+ * NB. Do this to avoid "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation" error in console
+ */
 export default function FlatListCustom<ItemT>(props: Props<ItemT>) {
-  // logger('FlatListCustom', {scrollEnabled: props.scrollEnabled});
   if (props.scrollEnabled === false) {
     return (
       <View style={props.style}>

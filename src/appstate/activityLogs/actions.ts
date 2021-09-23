@@ -1,10 +1,7 @@
 import Api from 'services/Api';
-import { IPageInfo, IState } from '..';
-import { logger } from 'services/logger';
+import { IPageInfo } from '..';
 import ErrorService from 'services/Error';
-import Util from 'services/Util';
 import { deserialiseLearnerArray, IEmsLearner, IActivityLog, deserialiseActivityArray, IActivityComment } from './models';
-import { ICodeMap } from '../config/models';
 import Analytics from 'services/Analytics';
 
 // Redux Action Creators for Activity Logs

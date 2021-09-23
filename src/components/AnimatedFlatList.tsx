@@ -35,6 +35,9 @@ const AnimatedFlatList = <ItemT,>({
 }: FlatListProps<ItemT> & Props): ReactElement => {
   const { height, width } = useScreen();
 
+  /**
+   * Subcomponent that slides & fades itself in
+   */
   const FadeInComponent: FC<{ index: number }> = useCallback(
     ({ index, children }): ReactElement => {
       if (!animate || index >= itemsToAnimate) {
@@ -84,6 +87,9 @@ const AnimatedFlatList = <ItemT,>({
     [],
   );
 
+  /**
+   * Separator component
+   */
   const Separator: FC<{ index: number }> = useCallback(
     ({ index }): ReactElement | null =>
       ItemSeparatorComponent && index !== undefined ? (

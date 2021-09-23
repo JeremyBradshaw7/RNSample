@@ -7,7 +7,6 @@ import About from './screens/About';
 import Settings from './screens/Settings';
 import LibraryContainer from './screens/Library';
 import { WallpaperPrimaryColor } from './components/Wallpaper';
-import { logger } from './services/logger';
 import { ViewChart } from './screens/ViewChart';
 import BurgerMenu from './components/BurgerMenu';
 import Login from './screens/Login';
@@ -379,7 +378,6 @@ export const DAPStack = () => {
 *************************/
 
 export const DisciplineReportsStack = () => {
-  // logger('render DisciplineReportsStack', Util.isLearner(), Util.isStaff(), Util.isAdmin());
   return (
     <Stack.Navigator screenOptions={stackOptions} initialRouteName={Util.isLearner() ? 'RecruitDisciplineReports' : 'DisciplineReports'}>
       <Stack.Screen name='DisciplineReports' component={DisciplineReports} />

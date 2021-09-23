@@ -19,7 +19,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 // eslint-disable-next-line import/no-internal-modules
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import createSensitiveStorage from 'redux-persist-sensitive-storage';
-import { logger } from 'services/logger';
 import { createBlacklistFilter } from 'redux-persist-transform-filter';
 import { ICPDState } from './CPD/models';
 import { IEvidenceState } from './evidence/models';

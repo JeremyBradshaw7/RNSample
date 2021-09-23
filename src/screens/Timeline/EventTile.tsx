@@ -14,7 +14,6 @@ import { $labels } from 'services/i18n';
 import Anim from 'services/Anim';
 import Toast from 'services/Toast';
 import { getAssessmentWithHeader } from 'appstate/assessments/actions';
-import { logger } from 'services/logger';
 import ScreenInfo from 'services/ScreenInfo';
 import { ProfileImage } from 'components/ProfileImage';
 

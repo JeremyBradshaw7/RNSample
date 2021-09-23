@@ -9,7 +9,7 @@ those, but all new components are written as functional components (with hooks).
 NB. In almost 4 years of programming with RN I Haven't yet hit a scenario where I need to write native modules for ios/android, so 
 I cannot claim to have any knowledge or experience of that, though I'm keen to dive in and investigate that at the first opportunity.
 
-The components folder illustrates some work I have done with animations, though as that's not really the focus of our app it's only
+The src/components folder illustrates some work I have done with animations, though as that's not really the focus of our app it's only
 very basic.
 
 Original README from repo follows:

@@ -1,5 +1,4 @@
 import { LayoutAnimation } from 'react-native';
-import { logger } from './logger';
 
 /**
  * Anim - animation static class

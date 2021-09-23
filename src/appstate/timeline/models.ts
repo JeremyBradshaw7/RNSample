@@ -1,17 +1,22 @@
 import ErrorService from 'services/Error';
 import Api from 'services/Api';
-import { logger } from 'services/logger';
-import Util from 'services/Util';
 
-// Define our Timeline State:
+/**
+ * Define our Timeline State:
+ */
 export interface ITimelineState {
   events: ITimelineEvent[]; // paged ordered list of events for current user
   preferences: ITimelinePreferences
 }
 
-// type mapping for whether to show each event template type
+/**
+ * type mapping for whether to show each event template type
+ */
 export type EventTypeMapping = { [templateId: number]: boolean; };
 
+/**
+ * Timeline Event model
+ */
 export interface ITimelineEvent {
   id: number;
   templateId: number;
@@ -20,12 +25,23 @@ export interface ITimelineEvent {
   data: any;
 }
 
+/**
+ * Timeline preferences model
+ */
 export interface ITimelinePreferences {
-  homeScreen: boolean; // preference to show timeline as home screen
+  /**
+   * preference to show timeline as home screen
+   */
+  homeScreen: boolean;
 }
 
 // Deserialisers
 
+/**
+ * Deserialise a timeline event
+ * @param   {any}             eventData  Raw API response data
+ * @return  {ITimelineEvent}             Timeline Event model
+ */
 export function deserialiseEvent(eventData: any): ITimelineEvent {
   try {
     const event: ITimelineEvent = {
@@ -42,6 +58,11 @@ export function deserialiseEvent(eventData: any): ITimelineEvent {
   }
 }
 
+/**
+ * Deserialise Timeline Event array from API response
+ * @param   {any[]}            eventArrayData  API response array
+ * @return  {ITimelineEvent[]}                 Timeline Event object array
+ */
 export function deserialiseEventArray(eventArrayData: any[]): ITimelineEvent[] {
   return eventArrayData.map((eventData) => deserialiseEvent(eventData));
 }

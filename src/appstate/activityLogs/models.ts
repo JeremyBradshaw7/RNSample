@@ -1,20 +1,34 @@
 import ErrorService from 'services/Error';
-import { IAssessmentComment } from '../assessments/models';
 import Api from 'services/Api';
-import { logger } from 'services/logger';
 import Util from 'services/Util';
 
-// Define our Activity Log State:
+/**
+ * Define our Activity Log State:
+ */
 export interface IActivityLogState {
   userLearners: IEMSUserLearnerArrayMap;     // user to array of learner ids map
   learners: IEMSLearnerMap;                  // learner id to learner map
   learnerActivities: IEMSLearnerActivityMap; // learner id to activity array map
 }
 
-export interface IEMSUserLearnerArrayMap { [key: number]: number[]; }      // array of learner IDs in retrieved order for each user
-export interface IEMSLearnerMap { [key: number]: IEmsLearner; }               // learner id to learner map
-export interface IEMSLearnerActivityMap { [key: number]: IActivityLog[]; } // learner id to activity array map
+/**
+ * array of learner IDs in retrieved order for each user
+ */
+export interface IEMSUserLearnerArrayMap { [key: number]: number[]; }
 
+/**
+ * learner id to learner map
+ */
+export interface IEMSLearnerMap { [key: number]: IEmsLearner; }
+
+/**
+ * learner id to activity array map
+ */
+export interface IEMSLearnerActivityMap { [key: number]: IActivityLog[]; }
+
+/**
+ * Learner details
+ */
 export interface IEmsLearner {
   id: number;
   name: string;
@@ -24,6 +38,9 @@ export interface IEmsLearner {
   maxHours: number;
 }
 
+/**
+ * Activity Log details
+ */
 export interface IActivityLog {
   guid: string;
   learnerId: number;
@@ -34,6 +51,11 @@ export interface IActivityLog {
   evidenceCount: number;
 }
 
+/**
+ * Method to instantiate a new Activity log
+ * @param   {number}        learnerId  Learner ID
+ * @return  {IActivityLog}             New learner details
+ */
 export function NEW_ACTIVITY(learnerId: number): IActivityLog {
   return {
     guid: 'NEW',
@@ -46,6 +68,9 @@ export function NEW_ACTIVITY(learnerId: number): IActivityLog {
   };
 }
 
+/**
+ * Activity Log Comment
+ */
 export interface IActivityComment {
   guid: string;
   comment: string;
@@ -54,6 +79,11 @@ export interface IActivityComment {
   authorName: string;
 }
 
+/**
+ * Deserialise API data to Learner model
+ * @param   {any}          learnerData  data from API response
+ * @return  {IEmsLearner}               Learner model
+ */
 export function deserialiseLearner(learnerData: any): IEmsLearner {
   try {
     const learner: IEmsLearner = {
@@ -71,6 +101,12 @@ export function deserialiseLearner(learnerData: any): IEmsLearner {
   }
 }
 
+/**
+ * Deserialise API data array to array of Learner objects
+ *
+ * @param   {any[]}          learnerArrayData  API data array
+ * @return  {IEmsLearner[]}                    Array of learner objects
+ */
 export function deserialiseLearnerArray(learnerArrayData: any[]): IEmsLearner[] {
   try {
     const learners: IEmsLearner[] = [];
@@ -85,6 +121,11 @@ export function deserialiseLearnerArray(learnerArrayData: any[]): IEmsLearner[] 
   }
 }
 
+/**
+ * Deserialise A{I data to Activity Comment}
+ * @param   {any}               commentData  API data
+ * @return  {IActivityComment}               Activity Comment model
+ */
 function deserialiseActivityComment(commentData: any): IActivityComment {
   try {
     const activity: IActivityComment = {
@@ -97,52 +138,6 @@ function deserialiseActivityComment(commentData: any): IActivityComment {
     return activity;
   } catch (err) {
     ErrorService.logError('Exception in deserialising activity', err);
-    throw err;
-  }
-}
-
-function deserialiseActivityCommentArray(commentArrayData: any[]): IActivityComment[] {
-  try {
-    const comments: IActivityComment[] = [];
-    commentArrayData.forEach((commentData) => {
-      const comment: IActivityComment = deserialiseActivityComment(commentData);
-      comments.push(comment);
-    });
-    return comments;
-  } catch (err) {
-    ErrorService.logError('Exception in deserialising activity array', err);
-    throw err;
-  }
-}
-
-export function deserialiseActivity(activityData: any): IActivityLog {
-  try {
-    const activity: IActivityLog = {
-      guid: activityData.guid,
-      learnerId: activityData.entity_id || -1,
-      description: activityData.description || '',
-      date: Api.decodeDate(activityData.date),
-      minutes: Api.decodeTime(activityData.time_spent) / 60 || 0,
-      comments: deserialiseActivityCommentArray(activityData.activity_comments || []),
-      evidenceCount: activityData.file_count || 0
-    };
-    return activity;
-  } catch (err) {
-    ErrorService.logError('Exception in deserialising activity', err);
-    throw err;
-  }
-}
-
-export function deserialiseActivityArray(activityArrayData: any[]): IActivityLog[] {
-  try {
-    const activities: IActivityLog[] = [];
-    activityArrayData.forEach((activityData) => {
-      const activity: IActivityLog = deserialiseActivity(activityData);
-      activities.push(activity);
-    });
-    return activities;
-  } catch (err) {
-    ErrorService.logError('Exception in deserialising activity array', err);
     throw err;
   }
 }

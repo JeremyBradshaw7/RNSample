@@ -17,7 +17,6 @@ import HelpMenu from 'components/HelpMenu';
 import { getMyCourses, getEPA, exportEPA } from 'appstate/onlineLearning/actions';
 import { getCourseLearnerList, ICourse, IEPAAssessment, IEPAView, IPersonCourse } from 'appstate/onlineLearning/models';
 import { makeGetAllCourses, makeGetMyCourses, makeGetResponsibleCourses } from 'appstate/onlineLearning/selectors';
-import { logger } from 'services/logger';
 import CodePicker from 'components/CodePicker';
 import { Icon } from 'native-base';
 import { commonStyles } from 'styles/common';
@@ -190,7 +189,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
       setLoading(false);
       setInitialising(false);
     } catch (err) {
-      logger(err);
       setLoading(false);
       Toast.showError($translate('GENERIC.X_FETCH_FAILURE', { entity: $labels.OLL.COURSE }));
     }

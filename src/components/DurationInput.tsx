@@ -41,8 +41,9 @@ function DurationInputBase({ value,
   blurOnSubmit
 }: Props, ref) {
   const inputRef: any = useRef();
+
   useImperativeHandle(ref, () => ({
-    // allow focus to be called externally
+    // allow focus method to be called from parent component
     focus: () => {
       if (inputRef && inputRef.current && inputRef.current.focus) {
         inputRef.current.focus();
@@ -50,6 +51,7 @@ function DurationInputBase({ value,
     }
   }));
 
+  // Parse a duration. TODO: Move to Util service
   const parseDuration = (hhmmss: string): number | null => {
     if (!hhmmss && !mandatory) {
       return null;
@@ -59,6 +61,7 @@ function DurationInputBase({ value,
     return isNaN(secs) ? null : secs;
   };
 
+  // Format a duration. TODO: Move to Util service
   const formatDuration = (seconds: number | null) => {
     if (seconds === null || isNaN(seconds)) {
       return '';
