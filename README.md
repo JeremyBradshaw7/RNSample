@@ -1,13 +1,15 @@
 Jeremy Bradshaw:
 
-This is some sample React Native code from our main repository, just enough to give some insights into my coding style,
-but not enough to expose any company IP. The package.json shows what packages I've been using - we make heavy use of Redux for 
-application state (though lately I've been making more use of context and react-native-query where previosuly I'd have resorted
-to Redux), and react-navigation for routing. Some of the older components and screens are class-based so you may see examples of
-those, but all new components are written as functional components (with hooks).
+This is some sample React Native code from our main repository, on which I've been the sole mobile developer. It's just enough to 
+give some insights into my coding level & style, but not enough to expose any company IP.
 
-NB. In almost 4 years of programming with RN I Haven't yet hit a scenario where I need to write native modules for ios/android, so 
-I cannot claim to have any knowledge or experience of that, though I'm keen to dive in and investigate that at the first opportunity.
+The package.json shows what packages I've been using - the app makes heavy use of Redux for application state (though lately I've 
+been making more use of context and react-native-query where previosuly I'd have resorted to Redux), and react-navigation for routing.
+Some of the older components and screens are class-based so you may see examples of those, but all new components are written as functional components (with hooks).
+
+NB. In almost 4 years of programming with RN I haven't yet hit a scenario where I need to write native modules for ios/android, I've
+always found a package that does the job, so I cannot claim to have any knowledge or experience of bridging across to native ios/android 
+code, though I'm keen to dive in and investigate that at the first opportunity.
 
 The src/components folder illustrates some work I have done with animations, though as that's not really the focus of our app it's only
 very basic.
