@@ -43,7 +43,7 @@ export default (state: IActivityLogState = INITIAL_STATE, action): IActivityLogS
       state = dotProp.set(state, `learnerActivities.${action.learnerId}`, action.activities);
       return state;
 
-    case 'ACTIVITY_LOG_ADD_SUCCESS': // learnerId, activity, percentageComplete
+    case 'ACTIVITY_LOG_ADD_SUCCESS':
       state = dotProp.merge(state, `learnerActivities.${action.learnerId}`, action.activity);
       if (action.percentageComplete !== undefined) {
         state = dotProp.set(state, `learners.${action.learnerId}.percentageComplete`, action.percentageComplete);
@@ -52,7 +52,7 @@ export default (state: IActivityLogState = INITIAL_STATE, action): IActivityLogS
       }
       return state;
 
-    case 'ACTIVITY_LOG_UPDATE_SUCCESS': // learnerId, activity, percentageComplete
+    case 'ACTIVITY_LOG_UPDATE_SUCCESS':
       const uActivities: IActivityLog[] = state.learnerActivities[action.learnerId] || [];
       const uActIndex = uActivities.findIndex((activity: IActivityLog) => activity.guid === action.activity.guid);
       if (uActIndex > -1) {
@@ -65,7 +65,7 @@ export default (state: IActivityLogState = INITIAL_STATE, action): IActivityLogS
       }
       return state;
 
-    case 'ACTIVITY_LOG_DELETE_SUCCESS': // learnerId, activityGuid, percentageComplete
+    case 'ACTIVITY_LOG_DELETE_SUCCESS':
       const adActivities: IActivityLog[] = state.learnerActivities[action.learnerId] || [];
       const adActIndex = adActivities.findIndex((activity: IActivityLog) => activity.guid === action.activityGuid);
       if (adActIndex > -1) {
@@ -75,29 +75,6 @@ export default (state: IActivityLogState = INITIAL_STATE, action): IActivityLogS
         state = dotProp.set(state, `learners.${action.learnerId}.percentageComplete`, action.percentageComplete);
       } else {
         state = computeLearnerPercentageComplete(state, action.learnerId);
-      }
-      return state;
-
-    case 'ACTIVITY_LOG_COMMENT_ADD_SUCCESS': // learnerId, activityGuid, newComment
-      const activities: IActivityLog[] = state.learnerActivities[action.learnerId] || [];
-      const actIndex = activities.findIndex((activity: IActivityLog) => activity.guid === action.activityGuid);
-      if (actIndex > -1) {
-        state = dotProp.merge(state, `learnerActivities.${action.learnerId}.${actIndex}.comments`, action.newComment);
-      }
-      return state;
-
-    case 'ACTIVITY_LOG_COMMENT_UPDATE_SUCCESS': // learnerId, activityGuid, commentId, comment
-      return state;
-
-    case 'ACTIVITY_LOG_COMMENT_DELETE_SUCCESS': // learnerId, activityGuid, commentId
-      // delete it from the activity's array of comments
-      const dActivities: IActivityLog[] = state.learnerActivities[action.learnerId] || [];
-      const dActIndex = dActivities.findIndex((activity: IActivityLog) => activity.guid === action.activityGuid);
-      if (dActIndex > -1) {
-        // then find the comment in the cativity's array
-        const comments: IActivityComment[] = dActivities[dActIndex].comments;
-        const cIndex = comments.findIndex((comment: IActivityComment) => comment.guid === action.commentId);
-        state = dotProp.delete(state, `learnerActivities.${action.learnerId}.${dActIndex}.comments.${cIndex}`);
       }
       return state;
 

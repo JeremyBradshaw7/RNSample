@@ -7,10 +7,22 @@ import { deserialiseLearnerArray, IEmsLearner, IActivityLog, deserialiseActivity
 import { ICodeMap } from '../config/models';
 import Analytics from 'services/Analytics';
 
-export const getActivityLogLearners = (page: number, namePattern: string, classPattern: string, orgMatch: string, coursePattern: string, qualMatch: string) => {
+// Redux Action Creators for Activity Logs
+
+/**
+ * Get a paged list of Learners (asynch)
+ *
+ * @param   {number}  page           Page number
+ * @param   {string}  namePattern    Name filter pattern
+ * @param   {string}  classPattern   Class filter patterm
+ * @param   {string}  orgMatch       Org unit id filter
+ *
+ * @return  {Promise<PageInfo>}      Page result information (actual learner data injected via redux)
+ */
+export const getActivityLogLearners = (page: number, namePattern: string, classPattern: string, orgMatch: string) => {
   return async (dispatch, getState): Promise<IPageInfo> => {
     try {
-      const json: any = await Api.getActivityLogLearners(page, namePattern, classPattern, orgMatch, coursePattern, qualMatch);
+      const json: any = await Api.getActivityLogLearners(page, namePattern, classPattern, orgMatch);
       const result = json.result || {};
       const learners: IEmsLearner[] = deserialiseLearnerArray(result.data);
       dispatch({
@@ -27,19 +39,11 @@ export const getActivityLogLearners = (page: number, namePattern: string, classP
   };
 };
 
-export const getActivityLogNewLearners = () => {
-  return async (dispatch, getState): Promise<IEmsLearner[]> => {
-    try {
-      const json: any = await Api.getActivityLogNewLearners();
-      const learners: IEmsLearner[] = deserialiseLearnerArray(json); // these will be sorted by surname
-      return learners;
-    } catch (err) {
-      ErrorService.logError('NEW_LEARNERS_FETCH_FAIL', err);
-      throw err;
-    }
-  };
-};
-
+/**
+ * Add a new Learner to the Activity log
+ *
+ * @param   {number}  newUserId  New learner ID
+ */
 export const addNewAtivityLogLearner = (newUserId: number) => {
   return async (dispatch, getState) => {
     try {
@@ -52,50 +56,12 @@ export const addNewAtivityLogLearner = (newUserId: number) => {
   };
 };
 
-export const getActivityLogEstablishments = () => {
-  return async (dispatch, getState): Promise<ICodeMap> => {
-    try {
-      const json: any = await Api.getActivityLogEstablishments();
-      const establishments: ICodeMap = Util.arrayToCodeMap(json);
-      return establishments;
-    } catch (err) {
-      ErrorService.logError('ACTIVITY_LOG_ESTABLISHMENTS_FETCH_FAIL', err);
-      throw err;
-    }
-  };
-};
-
-export const getActivityLogQualifications = () => {
-  return async (dispatch, getState): Promise<ICodeMap> => {
-    try {
-      const json: any = await Api.getActivityLogQualifications();
-      const qualifications: ICodeMap = json; // it is returned from the API as a id: string mapping already
-      return qualifications;
-    } catch (err) {
-      ErrorService.logError('ACTIVITY_LOG_QUALIFICATIONS_FETCH_FAIL', err);
-      throw err;
-    }
-  };
-};
-
-export const getActivityLogByUser = (learnerId: number) => {
-  return async (dispatch, getState) => {
-    try {
-      const json: any = await Api.getActivityLogByUser(learnerId);
-      const activities: IActivityLog[] = deserialiseActivityArray(json);
-      dispatch({
-        type: 'ACTIVITY_LOGS_FETCH_SUCCESS',
-        learnerId,
-        activities
-      });
-
-    } catch (err) {
-      ErrorService.logError('ACTIVITY_LOG_FETCH_FAIL', err);
-      throw err;
-    }
-  };
-};
-
+/**
+ * Update a learner activity log
+ *
+ * @param   {number}        learnerId  Learner ID
+ * @param   {IActivityLog}  activity   Activity Log details
+ */
 export const updateActivityLog = (learnerId: number, activity: IActivityLog) => {
   return async (dispatch, getState) => {
     try {
@@ -114,7 +80,13 @@ export const updateActivityLog = (learnerId: number, activity: IActivityLog) => 
   };
 };
 
-export const addActivityLog = (learnerId: number, activity: IActivityLog) => {
+/**
+ * Add a learner activity log
+ *
+ * @param   {number}        learnerId  Learner ID
+ * @param   {IActivityLog}  activity   Activity Log details
+ */
+ export const addActivityLog = (learnerId: number, activity: IActivityLog) => {
   return async (dispatch, getState): Promise<string> => {
     try {
       const json: any = await Api.addActivityLog(learnerId, activity.description, activity.date, activity.minutes);
@@ -134,6 +106,12 @@ export const addActivityLog = (learnerId: number, activity: IActivityLog) => {
   };
 };
 
+/**
+ * Delete a learner activity log
+ *
+ * @param   {number}  learnerId     Learner ID
+ * @param   {string}  activityGuid  Activity GUID
+ */
 export const deleteActivityLog = (learnerId: number, activityGuid: string) => {
   return async (dispatch, getState) => {
     try {
@@ -147,52 +125,6 @@ export const deleteActivityLog = (learnerId: number, activityGuid: string) => {
       });
     } catch (err) {
       ErrorService.logError('ACTIVITY_LOG_DELETE_FAIL', err);
-      throw err;
-    }
-  };
-};
-
-export const updateActivityLogComment = (learnerId: number, activityGuid: string, commentId: string, comment: string) => {
-  return async (dispatch, getState) => {
-    try {
-      const json: any = await Api.updateActivityLogComment(activityGuid, commentId, comment);
-      Analytics.logEvent('updateActivityLogComment', { learnerId, activityGuid, commentId });
-      dispatch({ type: 'ACTIVITY_LOG_COMMENT_UPDATE_SUCCESS', learnerId, activityGuid, commentId, comment });
-    } catch (err) {
-      ErrorService.logError('ACTIVITY_LOG_COMMENT_UPDATE_FAIL', err);
-      throw err;
-    }
-  };
-};
-
-export const addActivityLogComment = (learnerId: number, activityGuid: string, comment: string) => {
-  return async (dispatch, getState: () => IState) => {
-    try {
-      const json: any = await Api.addActivityLogComment(activityGuid, comment);
-      const newComment: IActivityComment = {
-        guid: json.id, // new comment id from response
-        comment,
-        authorId: getState().auth.id,
-        authorName: getState().auth.displayName,
-        createdAt: Util.now()
-      };
-      Analytics.logEvent('addActivityLogComment', { learnerId, activityGuid, comment });
-      dispatch({ type: 'ACTIVITY_LOG_COMMENT_ADD_SUCCESS', learnerId, activityGuid, newComment });
-    } catch (err) {
-      ErrorService.logError('ACTIVITY_LOG_COMMENT_ADD_FAIL', err);
-      throw err;
-    }
-  };
-};
-
-export const deleteActivityLogComment = (learnerId: number, activityGuid: string, commentId: string) => {
-  return async (dispatch, getState) => {
-    try {
-      const json: any = await Api.deleteActivityLogComment(activityGuid, commentId);
-      Analytics.logEvent('deleteActivityLogComment', { learnerId, activityGuid });
-      dispatch({ type: 'ACTIVITY_LOG_COMMENT_DELETE_SUCCESS', learnerId, activityGuid, commentId });
-    } catch (err) {
-      ErrorService.logError('ACTIVITY_LOG_COMMENT_DELETE_FAIL', err);
       throw err;
     }
   };

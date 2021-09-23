@@ -1,3 +1,10 @@
+Jeremy Bradshaw:
+
+This is some sample React Native code from our main repository, just enough to give some insights into my coding style, but not enough to expose any company IP. The package.json shows what packages I've been using - basically we make heavy use of Redux for 
+application state (though lately I've been making more use of context and react-native-query where previosuly I'd have resorted
+to Redux), and react-navigation for routing. Some of the older components and screens are class-based, but all new 
+components I write are functional components with hooks.
+
 # ccf
 
 ## Overview

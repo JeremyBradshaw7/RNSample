@@ -4,6 +4,17 @@ import { logger } from 'services/logger';
 import ErrorService from 'services/Error';
 import { deserialiseEventArray, EventTypeMapping, ITimelineEvent } from './models';
 
+// Redux Action Creators for Activity Logs
+
+/**
+ * Get the timeline events
+ *
+ * @param   {number}   page        Page number
+ * @param   {number}   pageSize    Page size
+ * @param   {boolean}  throwError  Whether to throw an error on failure (default true)
+ *
+ * @return  {Promise<PageInfo>}    Page result information (actual event data injected via redux)
+ */
 export const getTimelineEvents = (page: number, pageSize: number, throwError: boolean = true) => {
   return async (dispatch, getState): Promise<IPageInfo | null> => {
     try {
@@ -25,6 +36,11 @@ export const getTimelineEvents = (page: number, pageSize: number, throwError: bo
   };
 };
 
+/**
+ * Persist timeline preferences
+ *
+ * @param   {boolean}  showAsHomeScreen  [showAsHomeScreen description]
+ */
 export const setHomeScreenPreference = (showAsHomeScreen: boolean) => {
   return async (dispatch, getState) => {
     try {

@@ -73,7 +73,6 @@ class Learner extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    // logger('_____________________ Learner ctr props ', props.preferences);
     this.state = {
       sortedLearners: props.sortedLearners,
       scrolling: false,
@@ -100,7 +99,6 @@ class Learner extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(newProps: Props) {
-    // logger('_____________________ Learner cwrp props ', newProps.preferences);
     if (!!newProps.currentLearner) {
       const index = newProps.sortedLearners.findIndex((a: IEmsLearner) => a.id === newProps.currentLearner.id);
       if (index > -1) {
@@ -117,7 +115,6 @@ class Learner extends React.Component<Props, State> {
       return;
     }
 
-    // logger('change of learner? ' + this.props.currentLearnerIndex + ' -> ' + newProps.currentLearnerIndex);
     if (newProps.currentLearnerIndex !== this.props.currentLearnerIndex) { // detect change of assessment (on swiping header)
       this.fetchLearnerActivity(newProps.currentLearner);
     }
@@ -126,7 +123,6 @@ class Learner extends React.Component<Props, State> {
     if (!!this.state.editActivity && !!newProps.activities.length) {
       const activity = newProps.activities.find((act: IActivityLog) => this.state.editActivity && act.guid === this.state.editActivity.guid);
       if (activity) {
-        // logger('Found activity that matches that being edited', activity);
         this.setState({ editActivity: { ...this.state.editActivity, comments: activity.comments } });
       }
     }

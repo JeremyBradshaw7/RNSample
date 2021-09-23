@@ -33,7 +33,6 @@ export default class LearnerNavigable extends React.Component<Props, State> {
       learnerIndex: props.route.params.currentLearnerIndex,
       orientation: ScreenInfo.isPortrait() ? 'Portrait' : 'Landscape'
     };
-    // logger('LearnerNavigable ctr', props, this.state);
   }
 
   componentDidMount() {
@@ -49,10 +48,6 @@ export default class LearnerNavigable extends React.Component<Props, State> {
       orientation: ScreenInfo.isPortrait() ? 'Portrait' : 'Landscape' // to ensure screen is refreshed on orientation change
     });
   };
-
-  UNSAFE_componentWillMount() {
-    //
-  }
 
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     const propsDiff = Object.keys(nextProps).reduce((diff, key) => {

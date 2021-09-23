@@ -4,7 +4,7 @@ import Api from 'services/Api';
 import { logger } from 'services/logger';
 import Util from 'services/Util';
 
-// Define our CPD State:
+// Define our Activity Log State:
 export interface IActivityLogState {
   userLearners: IEMSUserLearnerArrayMap;     // user to array of learner ids map
   learners: IEMSLearnerMap;                  // learner id to learner map

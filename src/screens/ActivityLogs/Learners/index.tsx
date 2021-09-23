@@ -423,7 +423,6 @@ const mapDispatchToProps = {
 // function within a function form of mapStateToProps allows us to pass ownProps to selectors
 const mapStateToProps = () => {
   const getSortedLearners = makeGetSortedLearners();
-
   return (state: IState, ownProps: Props) => {
     return {
       sortedLearners: getSortedLearners(state)

@@ -49,6 +49,9 @@ interface Props {
   route: any;
 }
 
+/**
+ * Example of a functional screen component that uses react-query
+ */
 export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   let courseRef: any = null;
   const isLearner = Util.isLearner();
@@ -62,8 +65,6 @@ export const EPALite: React.FC<Props> = ({ navigation, route }) => {
   const responsibleCourses: ICourse[] = useSelector((state: IState) => useMemo(makeGetResponsibleCourses, [])(state));
   const [assignedLearners, setAssignedLearners] = useState<IPersonCourse[]>([]);
   const defaultEmail: string = useSelector((state: IState) => state.vault.email || '');
-
-  // const counter = useSelector((state: IState) => state.counter); // pull counter from redux state, if using reselect ...useMemo...useSelector...
 
   const mergeCourses = (): ICourse[] => {
     // My courses must merge in responsible and all;
