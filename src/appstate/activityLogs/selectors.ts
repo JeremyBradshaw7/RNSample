@@ -4,8 +4,7 @@ import { IEMSLearnerMap } from './models';
 
 /**
  * Selector to feed subscribing components with Activity Log learners
- * Selectors control which state updates get pushed to components via mapStateToProps, and therefore avoids any unnecessary
- * re-rendering.
+ * Selectors control which state updates get pushed to components via mapStateToProps, to avoid any unnecessary re-rendering.
  *
  * @return  {IEmsLearner[]}  Sorted learner array
  */

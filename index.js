@@ -42,6 +42,7 @@ Text.render = function (...args) {
 // assuming we use a dark header, we re-evaluate this after setting branding
 StatusBar.setBarStyle('light-content', true);
 
+// Initialise Sentry:
 if (!__DEV__ || ErrorService.LogOnDevelopment) {
   // see https://docs.sentry.io/clients/javascript/config/
   Sentry.init({

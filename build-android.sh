@@ -4,16 +4,6 @@
 # versionCode is an integer which Google Playstore recognises and does not allow to upload another APK having the same value. Just think of this as build number. 
 # versionName is the version number of your application and visible in Google Play Store. Can use server format.
 # See https://saumya.github.io/ray/articles/72/
-#
-# Note: requires innoved-ccf.keystore to be stored somewhere securely, outside version control, and placed in 
-# ./android/app folder on any build machine. Curently stored in mail attachment between me, simon & development@innovedlearning.co.uk
-# Also need ./android/gradle.properties file containing:
-#   android.useDeprecatedNdk=true
-#   MYAPP_RELEASE_STORE_FILE=innoved-ccf.keystore
-#   MYAPP_RELEASE_KEY_ALIAS=innoved-ccf
-#   MYAPP_RELEASE_STORE_PASSWORD=innoved123
-#   MYAPP_RELEASE_KEY_PASSWORD=innoved123
-# Currently we need both in the repo to be able to automate a build via AppCenter.
 
 ENV=$1
 

@@ -211,7 +211,7 @@ export default class Util {
   }
 
   /**
-   * Array nvl
+   * Array nvl - if first array is empty take second
    */
   public static anvl(val1: any[], val2: any[]): any[] {
     return val1.length > 0 ? val1 : val2;
@@ -313,7 +313,7 @@ export default class Util {
   }
 
   /**
-   * @description Groups items from an array into an array of objects, grouped by a property 'prop' name, maintaining original order. Based on functionality of LoDash's 'groupBy' function, but, unlike LoDash, preserves original array's order and returns an array instead of an object.
+   * Groups items from an array into an array of objects, grouped by a property 'prop' name, maintaining original order. Based on functionality of LoDash's 'groupBy' function, but, unlike LoDash, preserves original array's order and returns an array instead of an object.
    *
    * @param arr {array of objects} - Objects within array should contain a property marked by the 'prop' argument, or else they will be excluded from the output and a warning will be logged.
    * @param prop {string} Propery to use for grouping. The value of this will be converted to a string when creating group names.
