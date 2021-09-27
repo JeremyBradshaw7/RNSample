@@ -2,7 +2,6 @@ import React from 'react';
 import { NativeModules, Platform } from 'react-native';
 import { AppRegistry, StatusBar, Text } from 'react-native';
 import App from './src/App';
-import { LogBox } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import Config from 'react-native-config';
 import { commonStyles } from 'styles/common';
@@ -27,7 +26,6 @@ if (Platform.OS === 'android') {
 // disable font scaling, can throw off our screen designs:
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
-// Text.defaultProps.style = { fontFamily: 'Roboto' };
 
 // Typography: set default font family (setting via Text.defaultProps.style doesnt seem to work)
 // see https://ospfolio.com/two-way-to-change-default-font-family-in-react-native/#how-do-i-set-default-font-family-as-global-in-react-native-project
@@ -51,4 +49,5 @@ if (!__DEV__ || ErrorService.LogOnDevelopment) {
   });
 }
 
+// Screen Entry point:
 AppRegistry.registerComponent('ccf', () => App);

@@ -20,23 +20,6 @@ export default class Colour {
   }
 
   /**
-   * Get 5-band colour for given value and max value
-   * @param {number} value  Value to evaluate
-   * @param {number} maxval Maximum value (or number of grades)
-   * @returns {string} Colour name
-   */
-  public static get5BandColour(value: number, maxval: number): string {
-    const backgroundColour =
-      !value ? Theme.band0 :
-        value <= maxval / 5 ? Theme.band1 :
-          value <= (maxval / 5) * 2 ? Theme.band2 :
-            value <= (maxval / 5) * 3 ? Theme.band3 :
-              value <= (maxval / 5) * 4 ? Theme.band4 :
-                Theme.band5;
-    return backgroundColour;
-  }
-
-  /**
    * Get Continuous colour (in red to green scale) for given value and max value
    * @param {number} value  Value to evaluate
    * @param {number} maxval Maximum value (or number of grades)
@@ -60,7 +43,6 @@ export default class Colour {
     if (col.startsWith('rgb(')) {
       return col.replace('rgb(', 'rgba(').replace(')', `,${opacity})`);
     } else if (col.startsWith('#')) {
-      // return col + (opacity * 255).toString(16); // hex
       // Android WebView requires rgba format, so translate
       const r = parseInt(col.substring(1, 3), 16),
         g = parseInt(col.substring(3, 5), 16),

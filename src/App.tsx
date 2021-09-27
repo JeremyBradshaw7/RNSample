@@ -64,6 +64,9 @@ setNativeExceptionHandler((errorString) => {
 interface Props { }
 interface State { }
 
+/**
+ * Main Application Page
+ */
 class App extends React.Component<Props, State> {
 
   constructor(props) {
@@ -75,7 +78,6 @@ class App extends React.Component<Props, State> {
 
   componentDidMount() {
     ScreenInfo.applyOrientationLock();
-    KB.DisableManager(); // disable until we want it, can remove when all screens use it
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { LayoutAnimation } from 'react-native';
 
 /**
- * Anim - animation static class
+ * Anim - static methods for basic animations via LayoutAnimation
  */
 export default class Anim {
 

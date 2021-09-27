@@ -314,7 +314,6 @@ export default class Util {
 
   /**
    * Groups items from an array into an array of objects, grouped by a property 'prop' name, maintaining original order. Based on functionality of LoDash's 'groupBy' function, but, unlike LoDash, preserves original array's order and returns an array instead of an object.
-   *
    * @param arr {array of objects} - Objects within array should contain a property marked by the 'prop' argument, or else they will be excluded from the output and a warning will be logged.
    * @param prop {string} Propery to use for grouping. The value of this will be converted to a string when creating group names.
    */
@@ -342,10 +341,12 @@ export default class Util {
     return newArr;
   }
 
-  public static stripReturns(txt: string | undefined | null): string {
-    return (txt || '').replace(/(\r\n)+|\r+|\n+|\t+/ig, ' ').replace(/  /g, ' ');
-  }
-
+  /**
+   * Difference between two objects
+   * @param   {any}  obj1  Any object
+   * @param   {any}  obj2  Any object
+   * @return  {any}        Object representing the difference between the two objects
+   */
   public static diff(obj1: any, obj2: any): any {
     const propsDiff = Object.keys(obj1).reduce((diff, key) => {
       if (obj2[key] === obj1[key]) {

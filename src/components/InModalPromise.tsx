@@ -11,17 +11,14 @@ import { View } from 'react-native';
 private modalRef;
 
 // in some function where we want to show a modal and get a decision:
-const cont = await this.modalRef.show({
-  // configure buttons (all optional)
-  yesLabel: $labels.COMMON.YES,       // cont=true
-  noLabel: $labels.COMMON.NO,         // cont=false (also on modal closure)
+const continue = await this.modalRef.show({
+  yesLabel: $labels.COMMON.YES,       // continue=true
+  noLabel: $labels.COMMON.NO,         // continue=false (also on modal closure)
   cancelLabel: $labels.COMMON.CANCEL, // catch exception
-  // modal content:
   content: this.renderSomething(someData),
-  // any InModal props:
-  title: $labels.COMMON.WARNING,
-  adjustHeight: true
+  title: $labels.COMMON.WARNING
 });
+if (continue) ...
 
 // in main render method (should even be able to re-use this for multiple modals):
 <InModalPromise ref={(ref) => this.modalRef = ref} />
