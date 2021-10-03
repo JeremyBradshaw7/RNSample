@@ -7,7 +7,7 @@ import { Icon } from 'native-base';
 import { useScreen } from 'services/CustomHooks';
 
 interface Props {
-  content: any; // cannot get ...children to work with fn component so have to pass as explicit prop
+  children: React.ReactNode; // children are expected
   fadeWidth?: number;
   fadeHexColor?: string; // #nnnnnn
   style?: any;
@@ -17,7 +17,7 @@ interface Props {
  * A generic horizontal ScrollView that detects when scrollable to the left or right and overlays fade-out and caret icons
  */
 export const HorizontalScrollView: React.FC<Props> = ({
-  content,
+  children,
   fadeWidth = 40,
   fadeHexColor = '#ffffff',
   style = {}
@@ -92,7 +92,7 @@ export const HorizontalScrollView: React.FC<Props> = ({
             }));
           }}
         >
-          {content}
+          {children}
         </View>
       </ScrollView>
       {scrollState.right &&
